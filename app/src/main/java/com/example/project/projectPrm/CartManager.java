@@ -30,17 +30,20 @@ public class CartManager {
         }
     }
 
-    public void removeProductFromCart(Product product) {
+    public void decreaseProductQuantity(Product product) {
         if (product == null) return;
         
         if (cartItems.containsKey(product)) {
-            int quantity = cartItems.get(product);
-            if (quantity > 1) {
-                cartItems.put(product, quantity - 1); // Giảm số lượng
-            } else {
-                cartItems.remove(product); // Xóa nếu số lượng về 0
+            int currentQuantity = cartItems.get(product);
+            if (currentQuantity > 1) {
+                cartItems.put(product, currentQuantity - 1);
             }
         }
+    }
+
+    public void removeProductFromCart(Product product) {
+        if (product == null) return;
+        cartItems.remove(product);
     }
 
     public Map<Product, Integer> getCartItems() {

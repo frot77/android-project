@@ -51,13 +51,43 @@ public class CartAdapter extends ArrayAdapter<Product> {
         productName.setText(product.getName());
 
         TextView productQuantity = listItem.findViewById(R.id.cartitem_tvQuantity);
-        productQuantity.setText("Số lượng: " + quantity);
+        productQuantity.setText(String.valueOf(quantity));
 
         // Hiển thị giá sản phẩm
         TextView productPrice = listItem.findViewById(R.id.cartitem_tvPrice);
         double price = Double.parseDouble(product.getPrice()) * quantity;
         String formattedPrice = NumberFormat.getNumberInstance(Locale.US).format(price) + " VND";
         productPrice.setText(formattedPrice);
+
+        // Xử lý sự kiện tăng số lượng
+        ImageButton btnIncrease = listItem.findViewById(R.id.cartitem_btnIncrease);
+        btnIncrease.setOnClickListener(v -> {
+            CartManager.getInstance().addProductToCart(product);
+            notifyDataSetChanged();
+            updateTotalPrice();
+        });
+
+        // Xử lý sự kiện giảm số lượng
+        ImageButton btnDecrease = listItem.findViewById(R.id.cartitem_btnDecrease);
+        btnDecrease.setOnClickListener(v -> {
+            if (quantity > 1) {
+                CartManager.getInstance().decreaseProductQuantity(product);
+                notifyDataSetChanged();
+                updateTotalPrice();
+            } else {
+                // Nếu số lượng là 1, xóa sản phẩm khỏi giỏ hàng
+                CartManager.getInstance().removeProductFromCart(product);
+                remove(product);
+                notifyDataSetChanged();
+                updateTotalPrice();
+                Toast.makeText(context, "Đã xóa sản phẩm khỏi giỏ hàng", Toast.LENGTH_SHORT).show();
+                
+                // Nếu giỏ hàng trống, quay lại màn hình trước
+                if (getCount() == 0) {
+                    ((CartActivity) context).finish();
+                }
+            }
+        });
 
         // Xử lý sự kiện xóa sản phẩm
         ImageButton btnDelete = listItem.findViewById(R.id.cartitem_btnDelete);

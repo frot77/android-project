@@ -43,80 +43,80 @@ public class ProductMainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         // lay du lieu tu server
 
-//        new FetchProductTask().execute();
+        new FetchProductTask().execute();
 
     }
 
-//    private class FetchProductTask extends AsyncTask<Void,Void,String>{
-//        // doc du lieu tu server
-//        @Override
-//        protected String doInBackground(Void... voids) {
-//            StringBuilder response =new StringBuilder();//chua du lieu doc duoc
-//
-//            try {
-//                //duong dan doc du lieu
-//                URL url=new URL("http://192.168.34.106/api8/api1.php");
-//                //ket noi
-//                HttpURLConnection connection=(HttpURLConnection) url.openConnection();
-//                //thiet lap phuong thuc doc du lieu
-//                connection.setRequestMethod("GET");
-//                //tao buffer
-//                BufferedReader reader=new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//                //doc theo tung dong du lieu
-//                String line="";
-//                while((line=reader.readLine())!=null){
-//                    response.append(line);
-//                }
-//
-//                reader.close();
-//
-//            } catch (MalformedURLException e) {
-//                throw new RuntimeException(e);
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            return response.toString();
-//        }
-//        //tra ket quave client
-//        @Override
-//        protected void onPostExecute(String s) {
-//        // xu ly ket qua
-//            if(s!=null && !s.isEmpty()){
-//                try{
-//                    //lay ve doi tuong json
-//                    JSONObject json=new JSONObject(s);
-//                    //lay ve mang product
-//                    JSONArray jsonArray=json.getJSONArray("products");
-//
-//                    for (int i=0;i<jsonArray.length();i++){
-//                        //lay doi tuong con
-//                        JSONObject prdObject=jsonArray.getJSONObject(i);
-//                        //lay cac truong
-//                        String id=prdObject.getString("id");
-//                        String name=prdObject.getString("name");
-//                        String desc=prdObject.getString("description");
-//                        String price=prdObject.getString("price");
-//                        String img=prdObject.getString("image_url");
-//
-//                        Product product=new Product(id,name,desc,price,img);
-//
-//                        list.add(product);
-//                    }
-//                    adapter.notifyDataSetChanged();//cap nhat lai
-//                } catch (JSONException e) {
-//                    throw new RuntimeException(e);
-//                }
-//
-//            }
-//            else{
-//                Toast.makeText(getApplicationContext(),"loi doc du lieu",Toast.LENGTH_LONG).show();
-//            }
-//        }
-//    }
+    private class FetchProductTask extends AsyncTask<Void,Void,String>{
+        // doc du lieu tu server
+        @Override
+        protected String doInBackground(Void... voids) {
+            StringBuilder response =new StringBuilder();//chua du lieu doc duoc
+
+            try {
+                //duong dan doc du lieu
+                URL url=new URL("http://192.168.34.106/api8/api1.php");
+                //ket noi
+                HttpURLConnection connection=(HttpURLConnection) url.openConnection();
+                //thiet lap phuong thuc doc du lieu
+                connection.setRequestMethod("GET");
+                //tao buffer
+                BufferedReader reader=new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                //doc theo tung dong du lieu
+                String line="";
+                while((line=reader.readLine())!=null){
+                    response.append(line);
+                }
+
+                reader.close();
+
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return response.toString();
+        }
+        //tra ket quave client
+        @Override
+        protected void onPostExecute(String s) {
+        // xu ly ket qua
+            if(s!=null && !s.isEmpty()){
+                try{
+                    //lay ve doi tuong json
+                    JSONObject json=new JSONObject(s);
+                    //lay ve mang product
+                    JSONArray jsonArray=json.getJSONArray("products");
+
+                    for (int i=0;i<jsonArray.length();i++){
+                        //lay doi tuong con
+                        JSONObject prdObject=jsonArray.getJSONObject(i);
+                        //lay cac truong
+                        String id=prdObject.getString("id");
+                        String name=prdObject.getString("name");
+                        String desc=prdObject.getString("description");
+                        String price=prdObject.getString("price");
+                        String img=prdObject.getString("image_url");
+
+                        Product product=new Product(id,name,desc,price,img);
+
+                        list.add(product);
+                    }
+                    adapter.notifyDataSetChanged();//cap nhat lai
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+            else{
+                Toast.makeText(getApplicationContext(),"loi doc du lieu",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         updateMenuItems(menu);
         return true;
     }
@@ -125,39 +125,50 @@ public class ProductMainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         
-        if (id == R.id.action_cart) {
-            // Chuyển đến màn hình giỏ hàng
-            Intent cartIntent = new Intent(this, CartActivity.class);
-            startActivity(cartIntent);
+        if (id == R.id.menu_cart) {
+            startActivity(new Intent(this, CartActivity.class));
             return true;
-        } else if (id == R.id.action_login) {
-            if (!isLoggedIn()) {
+        }
+        else if (id == R.id.menu_order_history) {
+            // Kiểm tra đăng nhập trước khi mở lịch sử đơn hàng
+            if (isLoggedIn()) {
+                startActivity(new Intent(this, OrderHistoryActivity.class));
+            } else {
                 // Nếu chưa đăng nhập, mở màn hình đăng nhập
                 Intent loginIntent = new Intent(this, LoginActivity.class);
                 startActivityForResult(loginIntent, LOGIN_REQUEST_CODE);
             }
             return true;
-        } else if (id == R.id.action_logout) {
-            // Xử lý đăng xuất
+        }
+        else if (id == R.id.menu_login) {
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            startActivityForResult(loginIntent, LOGIN_REQUEST_CODE);
+            return true;
+        }
+        else if (id == R.id.menu_logout) {
             logout();
             return true;
         }
-        
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LOGIN_REQUEST_CODE && resultCode == RESULT_OK) {
             // Cập nhật lại menu sau khi đăng nhập thành công
             invalidateOptionsMenu();
+            // Nếu đang cố gắng xem lịch sử đơn hàng, mở màn hình lịch sử
+            if (isLoggedIn()) {
+                startActivity(new Intent(this, OrderHistoryActivity.class));
+            }
         }
     }
 
     private boolean isLoggedIn() {
         SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        return prefs.contains("user_id");
+        return !prefs.getString("user_id", "").isEmpty();
     }
 
     private void logout() {
@@ -177,22 +188,26 @@ public class ProductMainActivity extends AppCompatActivity {
     }
 
     private void updateMenuItems(Menu menu) {
-        MenuItem accountItem = menu.findItem(R.id.action_account);
-        MenuItem loginItem = menu.findItem(R.id.action_login);
-        MenuItem logoutItem = menu.findItem(R.id.action_logout);
+        MenuItem loginItem = menu.findItem(R.id.menu_login);
+        MenuItem logoutItem = menu.findItem(R.id.menu_logout);
+        MenuItem usernameItem = menu.findItem(R.id.menu_username);
+        MenuItem userProfileItem = menu.findItem(R.id.menu_user_profile);
+
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        String username = prefs.getString("username", "");
 
         if (isLoggedIn()) {
             // Nếu đã đăng nhập
-            SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
-            String fullName = prefs.getString("full_name", "");
-            accountItem.setTitle(fullName);
             loginItem.setVisible(false);
             logoutItem.setVisible(true);
+            usernameItem.setTitle(username);
+            userProfileItem.setTitle(username);
         } else {
             // Nếu chưa đăng nhập
-            accountItem.setTitle("Tài khoản");
             loginItem.setVisible(true);
             logoutItem.setVisible(false);
+            usernameItem.setTitle("Chưa đăng nhập");
+            userProfileItem.setTitle("Tài khoản");
         }
     }
 

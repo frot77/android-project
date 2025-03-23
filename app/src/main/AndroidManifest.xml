@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.project">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
-
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -30,13 +30,15 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".projectPrm.LoginActivity" />
         <activity android:name=".projectPrm.CheckoutActivity" />
         <activity android:name=".projectPrm.RegisterActivity" />
+        <activity android:name=".projectPrm.VNPayActivity" />
+        <activity android:name=".projectPrm.OrderHistoryActivity" />
+        <activity android:name=".projectPrm.OrderDetailActivity" />
     </application>
 
 </manifest>

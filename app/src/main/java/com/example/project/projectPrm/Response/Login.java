@@ -1,4 +1,4 @@
-package com.example.project.projectPrm;
+package com.example.project.projectPrm.Response;
 
 public class Login {
     private String username;

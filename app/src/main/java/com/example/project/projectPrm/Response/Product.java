@@ -1,4 +1,4 @@
-package com.example.project.projectPrm;
+package com.example.project.projectPrm.Response;
 
 import android.os.Parcel;
 import android.os.Parcelable;

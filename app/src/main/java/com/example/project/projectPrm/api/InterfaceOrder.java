@@ -1,4 +1,7 @@
-package com.example.project.projectPrm;
+package com.example.project.projectPrm.api;
+
+import com.example.project.projectPrm.Response.OrderHistoryResponse;
+import com.example.project.projectPrm.Response.OrderResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

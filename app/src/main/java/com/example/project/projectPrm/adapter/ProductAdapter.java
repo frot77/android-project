@@ -1,4 +1,4 @@
-package com.example.project.projectPrm;
+package com.example.project.projectPrm.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.project.R;
+import com.example.project.projectPrm.Response.Product;
+import com.example.project.projectPrm.ProductDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -75,7 +77,7 @@ public class ProductAdapter extends BaseAdapter {
         //event
         convertView.setOnClickListener(v->{
             Product product= list.get(position);
-            Intent intent=new Intent(context,ProductDetailActivity.class);
+            Intent intent=new Intent(context, ProductDetailActivity.class);
             intent.putExtra("PRODUCT",product);
             context.startActivity(intent);
         });

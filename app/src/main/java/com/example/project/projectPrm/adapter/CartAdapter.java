@@ -1,4 +1,4 @@
-package com.example.project.projectPrm;
+package com.example.project.projectPrm.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.project.R;
+import com.example.project.projectPrm.CartActivity;
+import com.example.project.projectPrm.CartManager;
+import com.example.project.projectPrm.Response.Product;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;

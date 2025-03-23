@@ -1,4 +1,4 @@
-package com.example.project.projectPrm;
+package com.example.project.projectPrm.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
+import com.example.project.projectPrm.Response.OrderHistoryResponse;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;

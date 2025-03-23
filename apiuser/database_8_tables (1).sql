@@ -45,7 +45,7 @@ CREATE TABLE orders (
     recipient_name VARCHAR(100) NOT NULL,
     recipient_phone VARCHAR(20) NOT NULL,
     recipient_address TEXT NOT NULL,
-    status ENUM('Pending', 'Processing', 'Completed', 'Cancelled') NOT NULL,
+    status ENUM('Pending', 'Completed', 'Cancelled') NOT NULL,
     total_price DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
@@ -66,8 +66,8 @@ CREATE TABLE orderdetail (
 CREATE TABLE payment (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
-    payment_method ENUM('VNPAY') NOT NULL,
-    payment_status ENUM('Pending','Completed', 'Failed') NOT NULL,
+    payment_method ENUM('Credit Card', 'PayPal', 'Bank Transfer', 'Cash') NOT NULL,
+    payment_status ENUM('Pending', 'Completed', 'Failed') NOT NULL,
     transaction_id VARCHAR(255) UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
@@ -92,14 +92,14 @@ INSERT INTO categories (name, description) VALUES
 ('Bông tai', 'Bông tai vàng, bạc, ngọc trai, kim cương');
 
 INSERT INTO product (category_id, name, description, price, stock, image_url) VALUES
-(1, 'Nhẫn kim cương', 'Nhẫn kim cương 18K sang trọng', 15000000, 10, 'https://bizweb.dktcdn.net/thumb/1024x1024/100/337/476/products/img-4759.jpg?v=1711080013537'),
-(1, 'Nhẫn vàng 24K', 'Nhẫn vàng trơn 24K cao cấp', 12000000, 15, 'https://product.hstatic.net/200000061680/product/nhan_tron_tron_2c_7a7d913b5dd744d7b1b59d02ed06c383_master.png'),
-(2, 'Vòng tay bạc', 'Vòng tay bạc 925 tinh tế', 5000000, 20, 'https://tleejewelry.vn/wp-content/uploads/2022/06/Lac-tay-nu-TLEE-vong-tay-bac-sao-kep-ca-tinh-LT0117.jpg'),
-(2, 'Vòng tay phong thủy', 'Vòng tay đá phong thủy mang lại may mắn', 3000000, 25, 'https://images.squarespace-cdn.com/content/v1/5fc46ed50b6b03258f4c2bb4/1615367385427-GY2OR52JER11AMAT59GV/1.png'),
-(3, 'Dây chuyền vàng trắng', 'Dây chuyền vàng trắng 14K đính đá', 8000000, 12, 'https://apj.vn/wp-content/uploads/2020/11/MTD0038-day-chuyen-vang-trang-10k.jpg'),
-(3, 'Dây chuyền bạc', 'Dây chuyền bạc 925 cao cấp', 4500000, 18, 'https://apj.vn/wp-content/uploads/2020/11/MTD0038-day-chuyen-vang-trang-10k.jpg'),
-(4, 'Bông tai ngọc trai', 'Bông tai ngọc trai tự nhiên sang trọng', 6000000, 10, 'https://cdn.pnj.io/images/detailed/124/gbxmxmw001776-bong-tai-vang-trang-10k-dinh-da-ecz-pnj-1.png'),
-(4, 'Bông tai kim cương', 'Bông tai đính kim cương lấp lánh', 20000000, 8, 'https://cdn.pnj.io/images/detailed/124/gbxmxmw001776-bong-tai-vang-trang-10k-dinh-da-ecz-pnj-1.png');
+(1, 'Nhẫn kim cương', 'Nhẫn kim cương 18K sang trọng', 15000000, 10, 'nhan_kim_cuong.jpg'),
+(1, 'Nhẫn vàng 24K', 'Nhẫn vàng trơn 24K cao cấp', 12000000, 15, 'nhan_vang_24k.jpg'),
+(2, 'Vòng tay bạc', 'Vòng tay bạc 925 tinh tế', 5000000, 20, 'vong_tay_bac.jpg'),
+(2, 'Vòng tay phong thủy', 'Vòng tay đá phong thủy mang lại may mắn', 3000000, 25, 'vong_tay_phong_thuy.jpg'),
+(3, 'Dây chuyền vàng trắng', 'Dây chuyền vàng trắng 14K đính đá', 8000000, 12, 'day_chuyen_vang_trang.jpg'),
+(3, 'Dây chuyền bạc', 'Dây chuyền bạc 925 cao cấp', 4500000, 18, 'day_chuyen_bac.jpg'),
+(4, 'Bông tai ngọc trai', 'Bông tai ngọc trai tự nhiên sang trọng', 6000000, 10, 'bong_tai_ngoc_trai.jpg'),
+(4, 'Bông tai kim cương', 'Bông tai đính kim cương lấp lánh', 20000000, 8, 'bong_tai_kim_cuong.jpg');
 
 INSERT INTO role (name) VALUES
 ('ADMIN'),

@@ -1,8 +1,8 @@
 package com.example.project.projectPrm;
 
-import java.util.ArrayList;
+import com.example.project.projectPrm.Response.Product;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CartManager {

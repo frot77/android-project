@@ -1,4 +1,4 @@
-package com.example.project.projectPrm;
+package com.example.project.projectPrm.adapter;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
+import com.example.project.projectPrm.OrderDetailActivity;
+import com.example.project.projectPrm.Response.OrderHistoryResponse;
 
 import java.text.NumberFormat;
 import java.util.List;

@@ -12,10 +12,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project.R;
+import com.example.project.projectPrm.Response.OrderResponse;
+import com.example.project.projectPrm.Response.Product;
+import com.example.project.projectPrm.api.InterfaceOrder;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +40,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private InterfaceOrder interfaceOrder;
 
     private static final int VNPAY_REQUEST_CODE = 1000;
+    private static final int VNPAY_PAYMENT_REQUEST = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,10 +118,12 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void processVNPayPayment() {
-        // Tạo Intent để chuyển sang màn hình thanh toán VNPAY
-        Intent vnpayIntent = new Intent(this, VNPayActivity.class);
-        vnpayIntent.putExtra("amount", totalAmount);
-        startActivityForResult(vnpayIntent, VNPAY_REQUEST_CODE);
+        // Số tiền test: 50,000 VND
+        double amount = 50000;
+        
+        Intent intent = new Intent(this, VNPayActivity.class);
+        intent.putExtra("amount", amount);
+        startActivityForResult(intent, VNPAY_PAYMENT_REQUEST);
     }
 
     private void processCODPayment(String fullName, String phone, String address) {
@@ -234,17 +238,13 @@ public class CheckoutActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == VNPAY_REQUEST_CODE) {
+        if (requestCode == VNPAY_PAYMENT_REQUEST) {
             if (resultCode == RESULT_OK) {
-                // Thanh toán VNPAY thành công
-                String fullName = etFullName.getText().toString().trim();
-                String phone = etPhone.getText().toString().trim();
-                String address = etAddress.getText().toString().trim();
-                
-                processCODPayment(fullName, phone, address);
+                Toast.makeText(this, "Thanh toán thành công!", Toast.LENGTH_LONG).show();
+                // Xử lý khi thanh toán thành công
             } else {
-                // Thanh toán VNPAY thất bại
-                Toast.makeText(this, "Thanh toán thất bại hoặc bị hủy", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Thanh toán không thành công hoặc bị hủy", Toast.LENGTH_LONG).show();
+                // Xử lý khi thanh toán thất bại hoặc bị hủy
             }
         }
     }

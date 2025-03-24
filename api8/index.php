@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php
+require_once 'check_auth.php';
 include 'product.php';
 
 $action = $_GET['action'] ?? '';
@@ -76,6 +77,9 @@ if ($action == 'getProducts') {
                     <h4>ADMIN PANEL</h4>
                 </div>
                 <nav class="nav flex-column">
+                    <a class="nav-link" href="dashboard.php">
+                        <i class="fas fa-chart-line"></i> Thống kê
+                    </a>
                     <a class="nav-link active-menu" href="index.php">
                         <i class="fas fa-box"></i> Quản lý sản phẩm
                     </a>
@@ -93,6 +97,9 @@ if ($action == 'getProducts') {
                     </a>
                     <a class="nav-link" href="payments.php">
                         <i class="fas fa-money-bill"></i> Quản lý thanh toán
+                    </a>
+                    <a class="nav-link" href="#" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
                     </a>
                 </nav>
             </div>
@@ -256,6 +263,18 @@ if ($action == 'getProducts') {
                 if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
                     $.get('?action=deleteProduct&id=' + id, function() {
                         loadProducts();
+                    });
+                }
+            });
+
+            // Thêm xử lý đăng xuất
+            $('#logoutBtn').click(function(e) {
+                e.preventDefault();
+                if (confirm('Bạn có chắc muốn đăng xuất?')) {
+                    $.post('auth.php', { action: 'logout' }, function(response) {
+                        if (response.success) {
+                            window.location.href = 'login.php';
+                        }
                     });
                 }
             });

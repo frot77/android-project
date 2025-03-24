@@ -1,65 +1,78 @@
 <?php
+header('Content-Type: application/json');
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 function connectDB() {
-    return new mysqli('localhost', 'root', '', 'jewelry_hong_prm392');
+    $conn = new mysqli('localhost', 'root', '', 'jewelry_hong_prm392');
+    if ($conn->connect_error) {
+        throw new Exception("Kết nối database thất bại: " . $conn->connect_error);
+    }
+    return $conn;
 }
 
 function getAllReviews() {
     $conn = connectDB();
     $sql = "SELECT r.*, u.username, u.full_name, p.name as product_name, p.image_url 
-            FROM review r 
+            FROM reviews r 
             LEFT JOIN user u ON r.user_id = u.id 
             LEFT JOIN product p ON r.product_id = p.id 
             ORDER BY r.created_at DESC";
     $result = $conn->query($sql);
+    if (!$result) {
+        throw new Exception("Lỗi query: " . $conn->error);
+    }
     return $result;
 }
 
-function deleteReview($id) {
-    $conn = connectDB();
-    $stmt = $conn->prepare("DELETE FROM review WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $result = $stmt->execute();
-    $stmt->close();
-    return $result;
-}
-
-function updateReviewStatus($id, $status) {
+function deleteReview($reviewId) {
     $conn = connectDB();
     
-    // Validate status
-    $validStatuses = ['Pending', 'Approved', 'Rejected'];
-    if (!in_array($status, $validStatuses)) {
-        return false;
+    $stmt = $conn->prepare("DELETE FROM reviews WHERE id = ?");
+    if (!$stmt) {
+        throw new Exception("Lỗi prepare statement: " . $conn->error);
     }
     
-    $stmt = $conn->prepare("UPDATE review SET status = ? WHERE id = ?");
-    $stmt->bind_param("si", $status, $id);
+    $stmt->bind_param("i", $reviewId);
     $result = $stmt->execute();
+    if (!$result) {
+        throw new Exception("Lỗi xóa đánh giá: " . $stmt->error);
+    }
+    
     $stmt->close();
     return $result;
 }
 
 // Xử lý các request
-$action = $_GET['action'] ?? '';
+$action = $_REQUEST['action'] ?? '';
 
-if ($action == 'getReviews') {
-    $reviews = getAllReviews();
-    $rows = array();
-    while ($row = $reviews->fetch_assoc()) {
-        $rows[] = $row;
+try {
+    if ($action == 'getReviews') {
+        $reviews = getAllReviews();
+        $rows = array();
+        
+        while ($row = $reviews->fetch_assoc()) {
+            $rows[] = $row;
+        }
+        
+        echo json_encode(['success' => true, 'data' => $rows]);
+    } elseif ($action == 'deleteReview') {
+        $reviewId = $_POST['id'] ?? 0;
+        
+        if (empty($reviewId)) {
+            throw new Exception("Thiếu ID đánh giá");
+        }
+        
+        $result = deleteReview($reviewId);
+        echo json_encode(['success' => $result]);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Action không hợp lệ']);
     }
-    echo json_encode($rows);
-    exit;
-} elseif ($action == 'deleteReview') {
-    $id = $_GET['id'] ?? 0;
-    $result = deleteReview($id);
-    echo json_encode(['success' => $result]);
-    exit;
-} elseif ($action == 'updateStatus') {
-    $id = $_POST['id'] ?? 0;
-    $status = $_POST['status'] ?? '';
-    $result = updateReviewStatus($id, $status);
-    echo json_encode(['success' => $result]);
-    exit;
+} catch (Exception $e) {
+    echo json_encode([
+        'success' => false, 
+        'error' => $e->getMessage(),
+        'trace' => $e->getTraceAsString()
+    ]);
 }
 ?> 

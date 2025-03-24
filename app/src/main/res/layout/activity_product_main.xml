@@ -7,7 +7,42 @@
     android:layout_height="match_parent"
     tools:context=".projectPrm.ProductMainActivity">
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_500"
+        app:tabTextColor="@android:color/white"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabMode="scrollable">
 
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tất cả" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nhẫn" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vòng tay" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dây chuyền" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bông tai" />
+
+    </com.google.android.material.tabs.TabLayout>
 
     <!-- Thanh tiêu đề -->
     <androidx.appcompat.widget.Toolbar
@@ -17,7 +52,7 @@
         android:background="?attr/colorPrimary"
         android:title="Danh sách sản phẩm"
         android:titleTextColor="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"/>
 
     <!-- Danh sách sản phẩm -->
     <ListView

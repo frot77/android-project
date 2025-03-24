@@ -37,8 +37,7 @@ try {
             $sql = "
                 SELECT p.*, 
                        c.name as category_name,
-                       (SELECT COUNT(*) FROM reviews r WHERE r.product_id = p.id) as review_count,
-                       (SELECT AVG(rating) FROM reviews r WHERE r.product_id = p.id) as average_rating
+                       
                 FROM product p
                 LEFT JOIN categories c ON p.category_id = c.id
                 WHERE p.category_id = ?
@@ -63,9 +62,8 @@ try {
                     'price' => $row['price'],
                     'stock' => $row['stock'],
                     'image_url' => $row['image_url'],
-                    'category_name' => $row['category_name'],
-                    'review_count' => $row['review_count'],
-                    'average_rating' => round($row['average_rating'], 1)
+                    'category_name' => $row['category_name']
+                    
                 );
             }
             

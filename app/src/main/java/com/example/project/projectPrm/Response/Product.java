@@ -6,13 +6,14 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Product implements Parcelable {
-    private String id ;
+    private String id;
     private String name;
     private String description;
     private String price;
-    private  String stock;
+    private String stock;
     private String image_url;
     private String category_id;
+    private String categoryId;
 
     public Product() {
     }
@@ -43,6 +44,7 @@ public class Product implements Parcelable {
         stock = in.readString();
         image_url = in.readString();
         category_id = in.readString();
+        categoryId = in.readString();
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -113,6 +115,14 @@ public class Product implements Parcelable {
         this.category_id = category_id;
     }
 
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -127,6 +137,7 @@ public class Product implements Parcelable {
         dest.writeString(stock);
         dest.writeString(image_url);
         dest.writeString(category_id);
+        dest.writeString(categoryId);
     }
 
     @Override

@@ -262,6 +262,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
 
+        // Xử lý nút Gửi
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             float rating = ratingBar.getRating();
             String comment = etComment.getText().toString().trim();
@@ -276,6 +277,11 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void createReview(float rating, String comment) {
+        Log.d(TAG, "Creating review - userId: " + currentUserId + 
+              ", productId: " + currentProductId + 
+              ", rating: " + rating + 
+              ", comment: " + comment);
+
         reviewAPI.createReview(currentUserId, currentProductId, rating, comment)
                 .enqueue(new Callback<ReviewResponse>() {
                     @Override
@@ -283,10 +289,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         if (response.isSuccessful() && response.body() != null) {
                             ReviewResponse reviewResponse = response.body();
                             if (reviewResponse.getSuccess() == 1) {
-                                Toast.makeText(ProductDetailActivity.this, 
-                                    "Đánh giá thành công!", Toast.LENGTH_SHORT).show();
                                 loadComments(currentProductId); // Reload comments
-                                btnAddReview.setVisibility(View.GONE); // Ẩn nút sau khi đánh giá thành công
                             }
                         }
                     }

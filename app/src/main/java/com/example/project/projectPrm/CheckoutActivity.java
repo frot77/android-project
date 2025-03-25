@@ -10,10 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
 import com.example.project.projectPrm.Response.OrderResponse;
 import com.example.project.projectPrm.Response.Product;
+import com.example.project.projectPrm.adapter.CheckoutCartAdapter;
 import com.example.project.projectPrm.api.InterfaceOrder;
 import com.google.gson.Gson;
 
@@ -35,8 +38,10 @@ public class CheckoutActivity extends AppCompatActivity {
     private TextView tvTotalAmount;
     private RadioGroup rgPaymentMethod;
     private Button btnConfirmOrder;
+    private RecyclerView rvCartItems;
+    private CheckoutCartAdapter cartAdapter;
     private double totalAmount = 0;
-    private static final String BASE_URL = "http://10.33.54.186/";
+    private static final String BASE_URL = "http://192.168.34.106/";
     private InterfaceOrder interfaceOrder;
 
     private static final int VNPAY_REQUEST_CODE = 1000;
@@ -55,6 +60,7 @@ public class CheckoutActivity extends AppCompatActivity {
         interfaceOrder = retrofit.create(InterfaceOrder.class);
 
         initViews();
+        setupRecyclerView();
         calculateTotal();
         setupListeners();
     }
@@ -66,6 +72,14 @@ public class CheckoutActivity extends AppCompatActivity {
         tvTotalAmount = findViewById(R.id.tvTotalAmount);
         rgPaymentMethod = findViewById(R.id.rgPaymentMethod);
         btnConfirmOrder = findViewById(R.id.btnConfirmOrder);
+        rvCartItems = findViewById(R.id.rvCartItems);
+    }
+
+    private void setupRecyclerView() {
+        rvCartItems.setLayoutManager(new LinearLayoutManager(this));
+        Map<Product, Integer> cartItems = CartManager.getInstance().getCartItems();
+        cartAdapter = new CheckoutCartAdapter(cartItems);
+        rvCartItems.setAdapter(cartAdapter);
     }
 
     private void calculateTotal() {
@@ -74,7 +88,7 @@ public class CheckoutActivity extends AppCompatActivity {
             totalAmount += Double.parseDouble(product.getPrice()) * quantity;
         }
         String formattedTotal = NumberFormat.getNumberInstance(Locale.US).format(totalAmount) + " VND";
-        tvTotalAmount.setText("Tổng tiền: " + formattedTotal);
+        tvTotalAmount.setText(formattedTotal);
     }
 
     private void setupListeners() {

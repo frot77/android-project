@@ -36,7 +36,16 @@
         <activity android:name=".projectPrm.LoginActivity" />
         <activity android:name=".projectPrm.CheckoutActivity" />
         <activity android:name=".projectPrm.RegisterActivity" />
-        <activity android:name=".projectPrm.VNPayActivity" />
+        <activity
+            android:name=".projectPrm.VNPayActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="mobile" android:host="vnpay.return" />
+            </intent-filter>
+        </activity>
         <activity android:name=".projectPrm.OrderHistoryActivity" />
         <activity android:name=".projectPrm.OrderDetailActivity" />
     </application>

@@ -1,67 +1,54 @@
 package com.example.project.projectPrm.Response;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Comment {
-    private String review_id;
-    private String user_id;
+    @SerializedName("id")
+    private String id;
+
+    @SerializedName("product_id")
+    private String productId;
+
+    @SerializedName("user_id")
+    private String userId;
+
+    @SerializedName("username")
     private String username;
-    private String full_name;
-    private float rating;
+
+    @SerializedName("comment")
     private String comment;
-    private String created_at;
 
-    public String getReview_id() {
-        return review_id;
+    @SerializedName("rating")
+    private String rating;
+
+    @SerializedName("created_at")
+    private String createdAt;
+
+    public String getId() {
+        return id;
     }
 
-    public void setReview_id(String review_id) {
-        this.review_id = review_id;
+    public String getProductId() {
+        return productId;
     }
 
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public String getUserId() {
+        return userId;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFull_name() {
-        return full_name;
-    }
-
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
-    }
-
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-
     public String getComment() {
         return comment;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public String getRating() {
+        return rating;
     }
 
-    public String getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+    public String getCreatedAt() {
+        return createdAt;
     }
 } 

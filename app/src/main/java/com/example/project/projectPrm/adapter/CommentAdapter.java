@@ -3,6 +3,7 @@ package com.example.project.projectPrm.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
 import com.example.project.projectPrm.Response.Comment;
-
 
 import java.util.List;
 
@@ -32,9 +32,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comment comment = comments.get(position);
-        holder.tvUsername.setText(comment.getUsername());
-        holder.tvComment.setText(comment.getComment());
-        holder.tvDate.setText(comment.getCreated_at());
+        holder.bind(comment);
     }
 
     @Override
@@ -48,13 +46,31 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     static class CommentViewHolder extends RecyclerView.ViewHolder {
-        TextView tvUsername, tvComment, tvDate;
+        private TextView tvUsername;
+        private TextView tvComment;
+        private TextView tvDate;
+        private RatingBar ratingBar;
 
-        CommentViewHolder(View itemView) {
+        public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             tvComment = itemView.findViewById(R.id.tvComment);
             tvDate = itemView.findViewById(R.id.tvDate);
+            ratingBar = itemView.findViewById(R.id.ratingBar);
+        }
+
+        public void bind(Comment comment) {
+            tvUsername.setText(comment.getUsername());
+            tvComment.setText(comment.getComment());
+            tvDate.setText(comment.getCreatedAt());
+            
+            // Hiển thị số sao
+            try {
+                float rating = Float.parseFloat(comment.getRating());
+                ratingBar.setRating(rating);
+            } catch (NumberFormatException e) {
+                ratingBar.setRating(0f);
+            }
         }
     }
 } 

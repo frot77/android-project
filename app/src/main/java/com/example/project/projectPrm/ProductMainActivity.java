@@ -94,7 +94,7 @@ public class ProductMainActivity extends AppCompatActivity {
         protected String doInBackground(Void... voids) {
             StringBuilder response = new StringBuilder();
             try {
-                URL url = new URL("http://10.33.54.186/api8/api1.php");
+                URL url = new URL("http://192.168.34.106/api8/api1.php");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 
@@ -203,9 +203,9 @@ public class ProductMainActivity extends AppCompatActivity {
             // Cập nhật lại menu sau khi đăng nhập thành công
             invalidateOptionsMenu();
             // Nếu đang cố gắng xem lịch sử đơn hàng, mở màn hình lịch sử
-            if (isLoggedIn()) {
-                startActivity(new Intent(this, OrderHistoryActivity.class));
-            }
+//            if (isLoggedIn()) {
+//                startActivity(new Intent(this, OrderHistoryActivity.class));
+//            }
         }
     }
 

@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Tạo Retrofit
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.33.54.186/apiuser/")
+                .baseUrl("http://192.168.34.106/apiuser/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 

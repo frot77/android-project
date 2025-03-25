@@ -31,7 +31,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
     private OrderHistoryAdapter adapter;
     private ProgressBar progressBar;
     private TextView tvNoOrders;
-    private static final String BASE_URL = "http://10.33.54.186/";
+    private static final String BASE_URL = "http://192.168.34.106/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -42,7 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ProductDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "ProductDetailActivity";
-    private static final String BASE_URL = "http://192.168.34.106/";
+    private static final String BASE_URL = "http://10.33.54.186/";
     
     ImageView image;
     TextView tvName,tvDesc,tvPrice,tvStock;

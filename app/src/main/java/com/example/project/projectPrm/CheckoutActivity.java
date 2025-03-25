@@ -41,7 +41,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private RecyclerView rvCartItems;
     private CheckoutCartAdapter cartAdapter;
     private double totalAmount = 0;
-    private static final String BASE_URL = "http://192.168.34.106/";
+    private static final String BASE_URL = "http://10.33.54.186/";
     private InterfaceOrder interfaceOrder;
 
     private static final int VNPAY_REQUEST_CODE = 1000;
